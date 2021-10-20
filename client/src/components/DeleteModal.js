@@ -16,8 +16,8 @@ function DeleteModal() {
         name = store.currentList.name;
     }
     function handleDeleteList(event) {
-        let target = event.target.id
-        store.deleteMarkedList(target);
+        let id = event.target.id
+        store.deleteMarkedList(id);
     }
     function handleCloseModal(event) {
         let modal = document.getElementById("delete-modal");

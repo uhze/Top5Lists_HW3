@@ -291,7 +291,6 @@
             async function asyncAddTop5List(payload) {
             let response = await api.createTop5List(payload);
                 if(response.data.success){
-                    let top5List = payload
                     storeReducer({
                     type: GlobalStoreActionType.ADD_NEW_LIST,
                     payload: payload
@@ -300,6 +299,21 @@
                 }
             }
             asyncAddTop5List(payload);
+        }
+
+        store.deleteMarkedList = function(id){
+            async function asyncDeleteMarkedList(id) {
+                let response = await api.deleteTop5ListById(id);
+                if(response.data.success){
+                    storeReducer({
+                        type: GlobalStoreActionType.DELETE_MARKED_LIST,
+                        payload: id
+                    });
+
+                store.history.remove("/top5list/" + id)
+                }
+            }
+            asyncDeleteMarkedList(id);          
         }
 
         store.changeItem = function (id,index, newName) {
@@ -334,19 +348,7 @@
             asyncChangeItem(id);
         }
 
-        store.deleteMarkedList = function(id){
-            async function asyncDeleteMarkedList(id) {
-                let response = await api.deleteTop5ListById(id);
-                if(response.data.success){
-                    storeReducer({
-                        type: GlobalStoreActionType.DELETE_MARKED_LIST,
-                        payload: id
-                    });
-                }
-                store.history.pop("/top5list/" + id)
-            }
-            asyncDeleteMarkedList(id);          
-        }
+
 
 
 

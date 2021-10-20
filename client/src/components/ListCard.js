@@ -53,6 +53,7 @@ function ListCard(props) {
     function handleToggleDeleteModal(event){
         let modal = document.getElementById("delete-modal");
         modal.classList.add("is-visible");
+
     }
 
     let selectClass = "unselected-list-card";

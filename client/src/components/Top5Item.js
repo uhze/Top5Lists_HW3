@@ -44,7 +44,6 @@ function Top5Item(props) {
     }
 
     function handleToggleEdit(event){
-        event.preventDefault();
         toggleEdit(event);
     }
 
@@ -97,7 +96,25 @@ function Top5Item(props) {
     </div>
 
     if (editActive) { 
-        itemlist= 
+        itemlist=
+        
+        <div
+        id={'item-' + (index + 1)}
+        className={itemClass}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        draggable="true"
+    >
+        <input
+            type="button"
+            id={"edit-item-" + index + 1}
+            className="list-card-button"
+            onClick ={handleToggleEdit}
+            value={"\u270E"}
+        />
         <input
                 id={'item-' + (index+1)}
                 className={itemClass}
@@ -105,8 +122,9 @@ function Top5Item(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={""}
-            />;
-            
+            />
+        {props.text}
+    </div>
     }
     return (
         itemlist
