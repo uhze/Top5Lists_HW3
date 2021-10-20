@@ -278,9 +278,10 @@
 
         store.addTop5List = function (payload) {
             async function asyncAddTop5List(payload) {
-            let response = await api.createTop5List(payload);
+            let response = await api.createTop5List(payload+1);
                 if(response.data.success){
                     let top5List = response.data.currentList.items
+                    payload = top5List
                     storeReducer({
                     type: GlobalStoreActionType.ADD_NEW_LIST,
                     payload: payload
@@ -323,8 +324,13 @@
             asyncChangeItem(id);
         }
 
-        store.deleteMarkedList = function(){
-            //api.deleteTop5ListById(store.currentList)
+        store.deleteMarkedList = function(id){
+            store.setCurrentList(id)
+            let currentList = store.currentList
+            if(currentList){
+                api.deleteTop5ListById(store.currentList._id)
+            }
+            
         }
 
         store.hideDeleteListModal = function(){
