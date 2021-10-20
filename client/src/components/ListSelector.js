@@ -17,7 +17,8 @@ const ListSelector = () => {
     }, []);
 
     function addList(){
-        let top5List = '{"names": "Untitled' + store.newListCounter + "', 'items':['?'','?','?','?','?']}"
+        let counter = store.newListCounter+1;
+        let top5List = {"name":"untitled"+counter, "items":["?","?","?","?","?"]}
         //let top5ListList = store.setCurrentList(top5List)
         store.addTop5List(top5List);
         

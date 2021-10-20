@@ -19,7 +19,8 @@
         SET_CURRENT_LIST: "SET_CURRENT_LIST",
         SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
         SET_ITEM_NAME_EDIT_ACTIVE: "SET_ITEM_NAME_EDIT_ACTIVE",
-        ADD_NEW_LIST: "ADD_NEW_LIST"
+        ADD_NEW_LIST: "ADD_NEW_LIST",
+        DELETE_MARKED_LIST: "DELETE_MARKED_LIST"
     }
 
     // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -122,10 +123,20 @@
                     return setStore({
                         idNamePairs: store.idNamePairs,
                         currentList: payload,
-                        newListCounter: store.newListCounter + 1,
+                        newListCounter: store.newListCounter,
                         isListNameEditActive: false,
                         isItemEditActive: true,
                         listMarkedForDeletion: null
+                    });
+                }
+                case GlobalStoreActionType.DELETE_MARKED_LIST: {
+                    return setStore({
+                        idNamePairs: store.idNamePairs,
+                        currentList: store.currentList,
+                        newListCounter: store.newListCounter,
+                        isListNameEditActive: false,
+                        isItemEditActive: false,
+                        listMarkedForDeletion: store.currentList
                     });
                 }
                 default:
@@ -280,8 +291,7 @@
             async function asyncAddTop5List(payload) {
             let response = await api.createTop5List(payload);
                 if(response.data.success){
-                    let top5List = response.data.currentList.items
-                    payload = top5List
+                    let top5List = payload
                     storeReducer({
                     type: GlobalStoreActionType.ADD_NEW_LIST,
                     payload: payload
@@ -325,21 +335,19 @@
         }
 
         store.deleteMarkedList = function(id){
-            store.setCurrentList(id)
-            let currentList = store.currentList
-            if(currentList){
-                api.deleteTop5ListById(store.currentList._id)
+            async function asyncDeleteMarkedList(id) {
+                let response = await api.deleteTop5ListById(id);
+                if(response.data.success){
+                    storeReducer({
+                        type: GlobalStoreActionType.DELETE_MARKED_LIST,
+                        payload: id
+                    });
+                }
+                store.history.pop("/top5list/" + id)
             }
-            
+            asyncDeleteMarkedList(id);          
         }
 
-        store.hideDeleteListModal = function(){
-            
-        }
-
-        store.showDeleteListModal = function(){
-
-        }
 
 
         // THIS GIVES OUR STORE AND ITS REDUCER TO ANY COMPONENT THAT NEEDS IT
