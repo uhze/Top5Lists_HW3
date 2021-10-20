@@ -17,8 +17,9 @@ const ListSelector = () => {
     }, []);
 
     function addList(event){
-        let top5List = store.idNamePairs[store.newListCounter];
-        store.addTop5List(top5List);
+        let top5List = store.idNamePairs[store.newListCounter]._id;
+        let top5ListList = store.setCurrentList(top5List+1)
+        store.addTop5List(top5ListList);
         
     }
 
