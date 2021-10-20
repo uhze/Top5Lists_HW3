@@ -16,10 +16,10 @@ const ListSelector = () => {
         store.loadIdNamePairs();
     }, []);
 
-    function addList(event){
-        let top5List = store.idNamePairs[store.newListCounter]._id;
-        let top5ListList = store.setCurrentList(top5List+1)
-        store.addTop5List(top5ListList);
+    function addList(){
+        let top5List = '{"names": "Untitled' + store.newListCounter + "', 'items':['?'','?','?','?','?']}"
+        //let top5ListList = store.setCurrentList(top5List)
+        store.addTop5List(top5List);
         
     }
 

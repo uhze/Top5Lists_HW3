@@ -278,9 +278,9 @@
 
         store.addTop5List = function (payload) {
             async function asyncAddTop5List(payload) {
-            let response = await api.createTop5List(payload+1);
+            let response = await api.createTop5List(payload);
                 if(response.data.success){
-                    let top5List = []
+                    let top5List = response.data.currentList.items
                     payload = top5List
                     storeReducer({
                     type: GlobalStoreActionType.ADD_NEW_LIST,
